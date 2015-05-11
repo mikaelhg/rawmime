@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+    <servlet>
+        <servlet-name>Receive</servlet-name>
+        <servlet-class>io.mikael.rawmime.ReceiveServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>MailBox</servlet-name>
+        <servlet-class>io.mikael.rawmime.MailBoxServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>Message</servlet-name>
+        <servlet-class>io.mikael.rawmime.MessageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Receive</servlet-name>
+        <url-pattern>/_ah/mail/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>MailBox</servlet-name>
+        <url-pattern>/b</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>Message</servlet-name>
+        <url-pattern>/m</url-pattern>
+    </servlet-mapping>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>mail</web-resource-name>
+            <url-pattern>/_ah/mail/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+</web-app>
