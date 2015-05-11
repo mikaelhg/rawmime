@@ -1,6 +1,7 @@
 package io.mikael.rawmime;
 
 import com.google.appengine.api.datastore.*;
+import com.google.common.html.HtmlEscapers;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,9 +16,11 @@ public class MailBoxServlet extends HttpServlet {
         res.setCharacterEncoding("UTF-8");
         final DatastoreService ds = DatastoreServiceFactory.getDatastoreService();
         final Query query = new Query("Message").addSort("__key__", Query.SortDirection.DESCENDING);
-        final List<Entity> messages = ds.prepare(query).asList(FetchOptions.Builder.withLimit(10));
+        final List<Entity> messages = ds.prepare(query).asList(FetchOptions.Builder.withLimit(25));
         for (final Entity m : messages) {
-            res.getWriter().println("<a href=\"m?id=" + m.getKey().getId() + "\">" + m.getProperty("subject") + "</a><br/>");
+            res.getWriter().printf("<a href=\"m?id=%d\">%s</a><br/>%n",
+                    m.getKey().getId(),
+                    HtmlEscapers.htmlEscaper().escape(m.getProperty("subject").toString()));
         }
     }
 }
